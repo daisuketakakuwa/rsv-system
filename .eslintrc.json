@@ -1,0 +1,12 @@
+{
+  "extends": ["airbnb", "prettier"],
+  "plugins": ["@typescript-eslint"],
+  "parserOptions": {},
+  "env": { "browser": true },
+  "globals": {},
+  "rules": {
+    "react/function-component-definition": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-filename-extension": [2, { "extensions": [".tsx"] }]
+  }
+}
