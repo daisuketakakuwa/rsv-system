@@ -1,4 +1,5 @@
 import { ReactNode, useEffect, useState } from 'react';
+import loginWithGoogle from '../../auth/google/googleAuth';
 import { HIDE_MENU_BUTTONS_PAGES } from '../../utils/constants';
 import LoginButton from '../LoginButton/LoginButton';
 import Modal from '../Modal/Modal';
@@ -68,7 +69,9 @@ const Layout = (props: LayoutProps) => {
                 width="20px"
                 height="20px"
               />
-              <span style={{ display: 'inline-block' }}>Googleアカウントでログイン</span>
+              <span style={{ display: 'inline-block' }} onClick={() => loginWithGoogle()}>
+                Googleアカウントでログイン
+              </span>
             </div>
           </LoginButton>
           <LoginButton>メールアドレスでログイン</LoginButton>

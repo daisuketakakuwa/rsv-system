@@ -54,6 +54,11 @@ gcloud run deploy YOUR_SERVICE_NAME --image gcr.io/YOUR_PROJECT_ID/your-image:la
 
 ## TroubleShootingメモ
 
+## Firebase
+
+- [Firebase SDK/クライアント側のセットアップ｜公式ドキュメント](https://firebase.google.com/docs/auth/web/start?hl=ja)
+- [Google認証｜公式ドキュメント](https://firebase.google.com/docs/auth/web/google-signin?hl=ja)
+
 ### ImageのPush権限がなかったので付与する。
 
 ログイン中のIAMユーザーを確認する。
