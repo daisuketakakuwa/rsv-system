@@ -1,6 +1,8 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { HIDE_MENU_BUTTONS_PAGES } from '../../utils/constants';
-import SlideButton from '../styles/SlideButton';
+import LoginButton from '../LoginButton/LoginButton';
+import Modal from '../Modal/Modal';
+import SlideButton from '../SlideButton/SlideButton';
 
 type LayoutProps = {
   children: ReactNode;
@@ -14,8 +16,11 @@ const Layout = (props: LayoutProps) => {
     setShowMenuButtons(!HIDE_MENU_BUTTONS_PAGES.includes(window.location.pathname));
   }, [window.location.pathname]);
 
+  const [showModal, setShowModal] = useState(false);
+  const toggleModal = () => setShowModal(!showModal);
+
   return (
-    <div style={{ position: 'relative', height: '100%' }}>
+    <>
       <div
         style={{
           position: 'absolute',
@@ -46,16 +51,31 @@ const Layout = (props: LayoutProps) => {
           {showMenuButtons && (
             <>
               <SlideButton margin="0px 10px">Mypage</SlideButton>
-              <SlideButton margin="0px 50px">ログイン</SlideButton>
+              <SlideButton margin="0px 50px" onClick={() => setShowModal(true)}>
+                ログイン
+              </SlideButton>
             </>
           )}
         </div>
       </div>
-
-      <div style={{ width: '100%', height: '100%', position: 'absolute', top: '100px', left: '0' }}>
-        {children}
-      </div>
-    </div>
+      <Modal show={showModal} toggleModal={toggleModal}>
+        <div style={{ textAlign: 'center' }}>
+          <LoginButton>
+            <div style={{ display: 'flex' }}>
+              <img
+                style={{ display: 'inline-block', marginRight: '5px' }}
+                src="src/assets/img/google_icon.png"
+                width="20px"
+                height="20px"
+              />
+              <span style={{ display: 'inline-block' }}>Googleアカウントでログイン</span>
+            </div>
+          </LoginButton>
+          <LoginButton>メールアドレスでログイン</LoginButton>
+        </div>
+      </Modal>
+      <div style={{ width: '100%', position: 'absolute', top: '100px', left: '0' }}>{children}</div>
+    </>
   );
 };
 

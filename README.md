@@ -18,7 +18,11 @@ docker build -t rsv-system .
 docker run -p 3000:3000 rsv-system
 ```
 
-## Build image → Deploy image → Run container
+## Deploy to GCP Cloud Run
+
+1. Build image on local.
+2. Deploy image to GCP Artifactory Registry.
+3. Run container on GCP Cloud Run.
 
 ### 1. Dockerイメージのビルド
 
@@ -30,19 +34,19 @@ docker build -t LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY/IMAGE:version .
 
 ### 2. GCP Artifact Registry へ Dockerイメージをデプロイ
 
-#### 1-1. Dockerイメージに認証情報を付与する。
+#### 2-1. Dockerイメージに認証情報を付与する。
 
 ```
 gcloud auth configure-docker asia-northeast1-docker.pkg.dev
 ```
 
-#### 1-2. Artifactory Registryにプッシュする。
+#### 2-2. GCP Artifactory Registryへイメージ登録。
 
 ```
 docker push LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY/IMAGE
 ```
 
-### 3. GCP Cloud Runへデプロイ
+### 3. GCP Cloud Run上でコンテナ起動
 
 ```
 gcloud run deploy YOUR_SERVICE_NAME --image gcr.io/YOUR_PROJECT_ID/your-image:latest --platform managed
