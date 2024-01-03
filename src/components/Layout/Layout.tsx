@@ -1,6 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
-import loginWithGoogle from '../../auth/google/googleAuth';
+import { signInWithGoogle, signOutWithGoogle } from '../../auth/google/googleAuth';
 import { HIDE_MENU_BUTTONS_PAGES } from '../../utils/constants';
+import { fetchUserInfo, saveUserInfo } from '../../utils/requestHandler';
 import LoginButton from '../LoginButton/LoginButton';
 import Modal from '../Modal/Modal';
 import SlideButton from '../SlideButton/SlideButton';
@@ -19,6 +20,14 @@ const Layout = (props: LayoutProps) => {
 
   const [showModal, setShowModal] = useState(false);
   const toggleModal = () => setShowModal(!showModal);
+
+  // TODO: 認証情報を Context で保持する。
+  const [userInfo, setUserInfo] = useState({ email: '' });
+
+  // Browser/Tabを閉じてもセッションIDが残っていれば認証済のまま
+  useEffect(() => {
+    fetchUserInfo().then((result) => setUserInfo(result));
+  }, []);
 
   return (
     <>
@@ -49,11 +58,24 @@ const Layout = (props: LayoutProps) => {
             alignItems: 'center',
             justifyContent: 'right',
           }}>
+          {userInfo.email && (
+            <p style={{ marginRight: '10px' }}>ログインユーザー：{userInfo.email}</p>
+          )}
           {showMenuButtons && (
             <>
               <SlideButton $margin="0px 10px">Mypage</SlideButton>
-              <SlideButton $margin="0px 50px" onClick={() => setShowModal(true)}>
-                ログイン
+              <SlideButton
+                $margin="0px 50px"
+                onClick={async () => {
+                  if (userInfo.email) {
+                    signOutWithGoogle();
+                    setUserInfo({ email: '' });
+                    await saveUserInfo('', '');
+                  } else {
+                    setShowModal(true);
+                  }
+                }}>
+                {userInfo.email ? 'ログアウト' : 'ログイン'}
               </SlideButton>
             </>
           )}
@@ -69,7 +91,14 @@ const Layout = (props: LayoutProps) => {
                 width="20px"
                 height="20px"
               />
-              <span style={{ display: 'inline-block' }} onClick={() => loginWithGoogle()}>
+              <span
+                style={{ display: 'inline-block' }}
+                onClick={async () => {
+                  await signInWithGoogle();
+                  setShowModal(false);
+                  const userInfo = await fetchUserInfo();
+                  setUserInfo({ email: userInfo.email });
+                }}>
                 Googleアカウントでログイン
               </span>
             </div>

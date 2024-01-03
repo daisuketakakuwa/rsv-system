@@ -1,33 +1,29 @@
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+import { saveUserInfo } from '../../utils/requestHandler';
 import auth from '../firebase';
 
 const provider = new GoogleAuthProvider();
 
-const loginWithGoogle = () => {
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential?.accessToken;
-      // The signed-in user info.
-      const user = result.user;
-      // IdP data available using getAdditionalUserInfo(result)
-      alert(token);
-    })
-    .catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.customData.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
-      alert(errorCode + ' ' + errorMessage);
-    });
+export const signInWithGoogle = async () => {
+  try {
+    // 1. Google認証
+    const userCredential = await signInWithPopup(auth, provider);
+    const oauthCredential = GoogleAuthProvider.credentialFromResult(userCredential);
+    // 2. セッション保存
+    const email = userCredential.user.email || '';
+    const token = oauthCredential?.idToken || '';
+    await saveUserInfo(email, token);
+  } catch (err) {
+    alert('Some error occured while signing in.');
+  }
 };
 
-// TODO
-const logoutWithGoogle = () => {};
-
-export default loginWithGoogle;
+export const signOutWithGoogle = () => {
+  signOut(auth)
+    .then(() => {
+      alert('ログアウトに成功しました。');
+    })
+    .catch((error) => {
+      alert('ログアウトに失敗しました。');
+    });
+};
