@@ -18,7 +18,7 @@ docker build -t rsv-system .
 docker run -p 3000:3000 rsv-system
 ```
 
-## Deploy to GCP Cloud Run
+## Deploy on GCP
 
 1. Build image on local.
 2. Deploy image to GCP Artifactory Registry.
@@ -54,7 +54,9 @@ gcloud run deploy YOUR_SERVICE_NAME --image gcr.io/YOUR_PROJECT_ID/your-image:la
 
 # TroubleShootingメモ
 
-## Styled Components - [transient-props](https://styled-components.com/docs/api#transient-props)で"unknown props"エラー解消
+## Styled Components
+
+### [transient-props](https://styled-components.com/docs/api#transient-props)で"unknown props"エラー解消
 
 NG
 
@@ -81,18 +83,3 @@ const Overlay = styled.div<{ $show: number }>`
 - [Firebase SDK/クライアント側のセットアップ｜公式ドキュメント](https://firebase.google.com/docs/auth/web/start?hl=ja)
 - [Google 以外の環境(ローカル)で SDK を初期化する < Firebase Admin SDK/サーバ側のセットアップ｜公式ドキュメント](https://firebase.google.com/docs/admin/setup?hl=ja)
 - [Google認証｜公式ドキュメント](https://firebase.google.com/docs/auth/web/google-signin?hl=ja)
-
-### ImageのPush権限がなかったので付与する。
-
-ログイン中のIAMユーザーを確認する。
-@@
-
-```
-gcloud auth list
-```
-
-IAMユーザーの権限を確認する
-
-```
-gcloud projects get-iam-policy YOUR_PROJECT_ID --flatten="bindings[].members" --format="table(bindings.role,bindings.members)" | findstr "YOUR_USER_EMAIL"
-```
