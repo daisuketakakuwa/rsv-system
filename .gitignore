@@ -12,6 +12,7 @@ build
 build-server
 *.local
 .env
+serviceaccount-firebase-admin-sdk*
 
 # Editor directories and files
 .vscode/*

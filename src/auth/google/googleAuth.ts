@@ -8,10 +8,9 @@ export const signInWithGoogle = async () => {
   try {
     // 1. Google認証
     const userCredential = await signInWithPopup(auth, provider);
-    const oauthCredential = GoogleAuthProvider.credentialFromResult(userCredential);
     // 2. セッション保存
     const email = userCredential.user.email || '';
-    const token = oauthCredential?.idToken || '';
+    const token = await userCredential.user.getIdToken();
     await saveUserInfo(email, token);
   } catch (err) {
     alert('Some error occured while signing in.');

@@ -79,6 +79,7 @@ const Overlay = styled.div<{ $show: number }>`
 ## Firebase
 
 - [Firebase SDK/クライアント側のセットアップ｜公式ドキュメント](https://firebase.google.com/docs/auth/web/start?hl=ja)
+- [Google 以外の環境(ローカル)で SDK を初期化する < Firebase Admin SDK/サーバ側のセットアップ｜公式ドキュメント](https://firebase.google.com/docs/admin/setup?hl=ja)
 - [Google認証｜公式ドキュメント](https://firebase.google.com/docs/auth/web/google-signin?hl=ja)
 
 ### ImageのPush権限がなかったので付与する。
