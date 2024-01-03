@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
 
-const Overlay = styled.div<{ show?: boolean }>`
-  display: ${(props) => (props.show ? 'block' : 'none')};
+const Overlay = styled.div<{ $show: number }>`
+  display: ${({ $show }) => ($show ? 'block' : 'none')};
   position: fixed;
   top: 0;
   left: 0;
@@ -15,7 +15,7 @@ const Overlay = styled.div<{ show?: boolean }>`
   -webkit-backdrop-filter: blur(5px);
 `;
 
-const StyledModal = styled.div<{ show?: boolean }>`
+const StyledModal = styled.div<{ $show: number }>`
   position: fixed;
   top: 50%;
   left: 50%;
@@ -25,14 +25,14 @@ const StyledModal = styled.div<{ show?: boolean }>`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1;
   transition: 0.5s all;
-  opacity: ${(props) => (props.show ? '1' : '0')};
-  transform: ${(props) => (props.show ? 'translateY(0px)' : 'translateY(100px)')}
+  opacity: ${({ $show }) => ($show ? '1' : '0')};
+  transform: ${({ $show }) => ($show ? 'translateY(0px)' : 'translateY(100px)')}
     translate(-50%, -50%);
 `;
 
 type ModalProps = {
   children: ReactNode;
-  show?: boolean;
+  show: boolean;
   toggleModal: () => void;
 };
 
@@ -41,8 +41,8 @@ const Modal = (props: ModalProps) => {
 
   return (
     <>
-      <Overlay show={show} onClick={() => toggleModal()} />
-      <StyledModal show={show}>{children}</StyledModal>
+      <Overlay $show={+show} onClick={() => toggleModal()} />
+      <StyledModal $show={+show}>{children}</StyledModal>
     </>
   );
 };

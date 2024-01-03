@@ -52,7 +52,29 @@ docker push LOCATION-docker.pkg.dev/PROJECT-ID/REPOSITORY/IMAGE
 gcloud run deploy YOUR_SERVICE_NAME --image gcr.io/YOUR_PROJECT_ID/your-image:latest --platform managed
 ```
 
-## TroubleShootingメモ
+# TroubleShootingメモ
+
+## Styled Components - [transient-props](https://styled-components.com/docs/api#transient-props)で"unknown props"エラー解消
+
+NG
+
+```tsx
+const Overlay = styled.div<{ show: number }>`
+  display: ${({ show }) => (show ? 'block' : 'none')};
+`;
+// showがdivのCSS属性として定義されてしまう。
+<Overlay show={+show} />;
+```
+
+OK
+
+```tsx
+const Overlay = styled.div<{ $show: number }>`
+  display: ${({ $show }) => ($show ? 'block' : 'none')};
+`;
+// showはStyledComponentだけに渡す(CSS属性として解決されない)形にする。
+<Overlay $show={show} />;
+```
 
 ## Firebase
 

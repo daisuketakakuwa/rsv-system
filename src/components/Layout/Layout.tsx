@@ -51,8 +51,8 @@ const Layout = (props: LayoutProps) => {
           }}>
           {showMenuButtons && (
             <>
-              <SlideButton margin="0px 10px">Mypage</SlideButton>
-              <SlideButton margin="0px 50px" onClick={() => setShowModal(true)}>
+              <SlideButton $margin="0px 10px">Mypage</SlideButton>
+              <SlideButton $margin="0px 50px" onClick={() => setShowModal(true)}>
                 ログイン
               </SlideButton>
             </>
