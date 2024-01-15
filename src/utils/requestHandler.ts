@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { axios } from '@/lib/httpClient';
 
 export const saveUserInfo = async (email: string, token: string) => {
   await axios.post('/api/userInfo', { email, token });

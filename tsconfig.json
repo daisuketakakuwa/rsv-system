@@ -12,7 +12,10 @@
     "jsx": "react-jsx",
     "outDir": "./build",
     "rootDir": "./src",
-    "baseUrl": "./",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "removeComments": false,
