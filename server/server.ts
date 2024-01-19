@@ -2,6 +2,7 @@ import express from 'express';
 import session from 'express-session';
 import path from 'path';
 import apiRouter from './apiRouter';
+import authRouter from './authRouter';
 import logger, { accessLogger } from './logger';
 
 // セッションに格納するデータ型
@@ -33,13 +34,22 @@ app.use(
     resave: false,
     // true → 認証などのユーザー情報が確立される前にもセッションが生成され、保存される
     // false →  明示的に書き込みを行わない限りセッションは生成されない。
-    // なので、true が一般的なパターン
-    saveUninitialized: true,
+    //
+    // ログイン時にPOST /userInfo で req.session.xxx = するときに
+    // 初めてセッションを生成するようにする。
+    // = これで【ログインした時間から maxAge 時間たてばセッション(ログイン済状態)が
+    //   expiredするようになる👍
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 30, // ミリ秒 30分
+    },
   }),
 );
 
 // APIへのリクエストはすべてLogに出す(winstonのログTemplate使いたい)
 app.use(accessLogger);
+
+app.use('/api/auth', authRouter);
 
 app.use('/api', apiRouter);
 

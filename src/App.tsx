@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
+import AdminPage from './pages/Admin/AdminPage';
 import TopPage from './pages/Top/TopPage';
 
 const App = () => {
@@ -9,6 +10,7 @@ const App = () => {
         <Layout>
           <Routes>
             <Route path="/" element={<TopPage />} />
+            <Route path="/admin" element={<AdminPage />} />
           </Routes>
         </Layout>
       </BrowserRouter>

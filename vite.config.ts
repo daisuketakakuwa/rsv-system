@@ -11,6 +11,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': 'http://localhost:4000',
+      '/api/auth': 'http://localhost:4000',
     },
   },
   // viteローカル起動時に TSのPath aliasをViteに受け入れてもらうため

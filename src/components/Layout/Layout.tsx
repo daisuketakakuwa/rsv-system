@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { signInWithGoogle, signOutWithGoogle } from '../../auth/google/googleAuth';
-import { HIDE_MENU_BUTTONS_PAGES } from '../../utils/constants';
+import { AUTHENTICATED_PAGES, HIDE_MENU_BUTTONS_PAGES } from '../../utils/constants';
 import { fetchUserInfo, saveUserInfo } from '../../utils/requestHandler';
 import LoginButton from '../LoginButton/LoginButton';
 import Modal from '../Modal/Modal';
@@ -23,11 +23,28 @@ const Layout = (props: LayoutProps) => {
 
   // TODO: 認証情報を Context で保持する。
   const [userInfo, setUserInfo] = useState({ email: '' });
+  // TODO: ローディング状態を Context で保持する。
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Browser/Tabを閉じてもセッションIDが残っていれば認証済のまま
+  const [canOpenPage, setCanOpenPage] = useState(false);
+
+  // 画面が変わったとき と ログインが行われた場合に 以下のチェックを行う。
+  //   1. 認証が必要なページか -> NO -> 開く
+  //         ↓ YES
+  //   2. 認証済か -> NO -> 開かない。
+  //         ↓ YES
+  //      画面を開く
   useEffect(() => {
-    fetchUserInfo().then((result) => setUserInfo(result));
-  }, []);
+    const isNecessaryToAuth = AUTHENTICATED_PAGES.includes(window.location.pathname);
+    if (isNecessaryToAuth) {
+      fetchUserInfo().then((res) => {
+        const isAuthenticated = res.status == 200;
+        setCanOpenPage(isAuthenticated);
+      });
+    } else {
+      setCanOpenPage(true);
+    }
+  }, [window.location.pathname, userInfo]);
 
   return (
     <>
@@ -96,7 +113,7 @@ const Layout = (props: LayoutProps) => {
                 onClick={async () => {
                   await signInWithGoogle();
                   setShowModal(false);
-                  const userInfo = await fetchUserInfo();
+                  const userInfo = (await fetchUserInfo()).data;
                   setUserInfo({ email: userInfo.email });
                 }}>
                 Googleアカウントでログイン
@@ -106,7 +123,9 @@ const Layout = (props: LayoutProps) => {
           <LoginButton>メールアドレスでログイン</LoginButton>
         </div>
       </Modal>
-      <div style={{ width: '100%', position: 'absolute', top: '100px', left: '0' }}>{children}</div>
+      <div style={{ width: '100%', position: 'absolute', top: '100px', left: '0' }}>
+        {canOpenPage ? <>{children}</> : <h1>未認証のため画面を開けません。</h1>}
+      </div>
     </>
   );
 };
