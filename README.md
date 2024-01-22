@@ -7,6 +7,27 @@
 - package.jsonに`type: "module"`は定義しない＝Rollupでバンドルするから。
 -
 
+## Prisma
+
+- Schemaファイル `prisma/schema.prisma` にテーブル定義を書いていく。
+- `prisma db pull`: DBに定義済のテーブル定義/スキーマを schema.prismaへ書きおこす。
+- `prisma generate`: Clientコードを自動生成する。
+
+### 運用方法
+
+1. まずSQLでテーブル定義を書く -> `db/schema.sql`
+2. 1をDBへ反映する。
+3. `prisma db pull`でschema.prismaへテーブル定義を反映する。
+4. `prisma generate`でClientコードを自動生成する。<br>Clientコードは `import PrismaClient from '@prisma/client');`で利用する。
+
+## MySQL
+
+ログイン
+
+```
+mysql -h localhost --user=root --password=passw@rd rsvSystemDb --port=3319
+```
+
 ## Run on local with building image
 
 ```js
