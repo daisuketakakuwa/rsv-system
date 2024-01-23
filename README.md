@@ -2,10 +2,9 @@
 
 <img src="https://github.com/daisuketakakuwa/rsv-system/assets/66095465/9149f715-c239-4f71-b098-f9ed3ba3761a" width="700px" />
 
-## MEMO
+## About Application
 
-- package.jsonに`type: "module"`は定義しない＝Rollupでバンドルするから。
--
+- 認証が必要な画面は`AUTHENTICATED_PAGES`へパスを登録すること。
 
 ## Prisma
 
@@ -13,7 +12,7 @@
 - `prisma db pull`: DBに定義済のテーブル定義/スキーマを schema.prismaへ書きおこす。
 - `prisma generate`: Clientコードを自動生成する。
 
-### 運用方法
+### Prisma 運用方法
 
 1. まずSQLでテーブル定義を書く -> `db/schema.sql`
 2. 1をDBへ反映する。
