@@ -1,8 +1,8 @@
 import express from 'express';
-import eventController from './controller/EventController';
+import verifyToken from './auth/verifyToken';
 import RuntimeError from './error/RuntimeError';
-import logger from './logger';
-import verifyToken from './middleware/verifyToken';
+import eventController from './features/events/EventController';
+import logger from './utils/logger';
 
 const apiRouter = express.Router();
 
@@ -11,6 +11,7 @@ apiRouter.get('/protected-one', verifyToken, (req, res) => {
   res.json({ message: 'Access granted to protected route' });
 });
 
+// features
 apiRouter.use(eventController);
 
 // catch error here

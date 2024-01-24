@@ -1,5 +1,5 @@
 import express from 'express';
-import verifyToken from './middleware/verifyToken';
+import verifyToken from './verifyToken';
 
 const authRouter = express.Router();
 

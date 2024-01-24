@@ -1,5 +1,5 @@
-import EventRepository from '../repository/EventRepository';
-import { jstToUtc } from '../util/DatetimeUtil';
+import { jstToUtc } from '../../utils/DatetimeUtil';
+import EventRepository from './EventRepository';
 
 const create = async (
   eventName: string,

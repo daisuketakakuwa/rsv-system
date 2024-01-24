@@ -2,8 +2,8 @@ import express from 'express';
 import session from 'express-session';
 import path from 'path';
 import apiRouter from './apiRouter';
-import authRouter from './authRouter';
-import logger, { accessLogger } from './logger';
+import authRouter from './auth/authRouter';
+import logger, { accessLogger } from './utils/logger';
 
 // セッションに格納するデータ型
 interface User {

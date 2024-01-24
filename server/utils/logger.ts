@@ -2,7 +2,7 @@
 import dotenv from 'dotenv';
 import expressWinston from 'express-winston';
 import winston from 'winston';
-import { loggerTimestamp } from './util/DatetimeUtil';
+import { loggerTimestamp } from './DatetimeUtil';
 
 dotenv.config();
 

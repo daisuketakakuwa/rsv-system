@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-import RuntimeError from '../error/RuntimeError';
-import logger from '../logger';
+import RuntimeError from '../../error/RuntimeError';
+import logger from '../../utils/logger';
 
 const prisma = new PrismaClient();
 
