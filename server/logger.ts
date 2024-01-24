@@ -1,9 +1,9 @@
-import moment from 'moment-timezone';
-import winston from 'winston';
-import expressWinston from 'express-winston';
-
 // .env利用の有効化
 import dotenv from 'dotenv';
+import expressWinston from 'express-winston';
+import winston from 'winston';
+import { loggerTimestamp } from './util/DatetimeUtil';
+
 dotenv.config();
 
 const { format } = winston;
@@ -16,7 +16,7 @@ const env = process.env.NODE_ENV || 'DEV';
 const asiaTokyoTimestamp = format((logObj) => {
   return {
     ...logObj,
-    timestamp: moment().tz('Asia/Tokyo').locale('ja').format('YYYY-MM-DD HH:mm:ss.SSS'),
+    timestamp: loggerTimestamp(),
   };
 });
 

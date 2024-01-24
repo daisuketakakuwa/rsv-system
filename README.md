@@ -4,7 +4,59 @@
 
 ## About Application
 
+### 画面の認証
+
 - 認証が必要な画面は`AUTHENTICATED_PAGES`へパスを登録すること。
+
+### APIの認証
+
+### APIのエラーハンドリング
+
+- `throw new RuntimeError`で例外を投げる。。
+- すべての例外は **Errorハンドリング用ミドルウェア関数** にて処理する。各エンドポイント内で`try-catch`を書く必要なし👍
+- 🔴課題: Repository/Service/Controllerすべてに`try-catch`構文を書く必要がある。
+
+```js
+apiRouter.get('/error-api', (req, res, next) => {
+  try {
+    // throw error
+    throw new RuntimeError(500, 'This is a simulated error.');
+  } catch (error) {
+    // pass error
+    return next(error)
+  }
+});
+
+// catch error
+apiRouter.use((err: RuntimeError, req, res, next) => {
+  res.status(err.status).json({
+    message: err.message,
+  });
+});
+```
+
+## DB
+
+### ID Strategy -> "UUID"
+
+- UUID(128bit) は MySQLの`CHAR(36)`で保存する。
+- Storage効率的には`BINARY(16)`/16B/128bit の方がよいが、基本`CHAR`でも問題ない。
+- UUIDの生成はPrismaClientが実装するUUIDGeneratorを利用する -> `@default(uuid())`
+
+```
+model event {
+  id             String    @id @db.Char(36) @default(uuid())
+```
+
+### 日付項目
+
+- 日付項目はUTCで保持する。
+- 登録APIの日付パラメータ(JST) → UTC へ変換してDB登録。
+- DBより日付(UTC)取得 -> JSTへ変換してレスポンス返す。
+
+```ts
+
+```
 
 ## Prisma
 
@@ -12,12 +64,20 @@
 - `prisma db pull`: DBに定義済のテーブル定義/スキーマを schema.prismaへ書きおこす。
 - `prisma generate`: Clientコードを自動生成する。
 
-### Prisma 運用方法
+### DBスキーマ定義
 
 1. まずSQLでテーブル定義を書く -> `db/schema.sql`
 2. 1をDBへ反映する。
 3. `prisma db pull`でschema.prismaへテーブル定義を反映する。
 4. `prisma generate`でClientコードを自動生成する。<br>Clientコードは `import PrismaClient from '@prisma/client');`で利用する。
+
+### Connection Pool
+
+TBD
+
+### Error
+
+https://www.prisma.io/docs/orm/reference/error-reference
 
 ## MySQL
 

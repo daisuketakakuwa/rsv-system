@@ -1,7 +1,7 @@
 CREATE TABLE event (
-    id                BIGINT,
+    id                CHAR(36),
     name              VARCHAR(100),
-    description       VARCHAR(500),
+    detail            VARCHAR(500),
     start_datetime    DATETIME,
     end_datetime      DATETIME,
     capacity          INT,

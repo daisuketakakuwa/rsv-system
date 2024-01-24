@@ -1,4 +1,5 @@
 import SlideButton from '@/components/SlideButton/SlideButton';
+import { saveEvent } from '@/utils/requestHandler';
 import { useState } from 'react';
 
 const CreateEventPage = () => {
@@ -61,7 +62,10 @@ const CreateEventPage = () => {
       <div style={{ textAlign: 'center' }}>
         <SlideButton
           onClick={() => {
-            // axiosで POST /event をCallする
+            // TODO: これもdispatcherの１つにして
+            //   BEGIN: set loading true
+            //   
+            saveEvent(eventName, eventDetail, startDatetime, endDatetime, capacity);
           }}>
           登録
         </SlideButton>
