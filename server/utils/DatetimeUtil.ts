@@ -7,14 +7,14 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 // JST → UTC
-export const jstToUtc = (jstTimeString: string): string => {
+export const jstToUtc = (jstTimeString: string | Date): string => {
   const jstTime = dayjs(jstTimeString).tz('Asia/Tokyo');
   const utcTime = jstTime.utc();
   return utcTime.format('YYYY-MM-DDTHH:mm:ss');
 };
 
 // UTC → JST
-export const utcToJst = (utcTimeString: string): string => {
+export const utcToJst = (utcTimeString: string | Date): string => {
   const utcTime = dayjs(utcTimeString).utc();
   const jstTime = utcTime.tz('Asia/Tokyo');
   return jstTime.format('YYYY-MM-DDTHH:mm:ss');

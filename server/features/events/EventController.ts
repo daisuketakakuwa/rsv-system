@@ -16,4 +16,15 @@ eventController.post('/events', async (req, res, next) => {
   }
 });
 
+// TODO: 動的に条件を指定できるようにする
+// TODO: ページング＆ソート機能
+eventController.get('/events', async (req, res, next) => {
+  try {
+    const events = await EventService.search();
+    return res.json({ events });
+  } catch (error) {
+    return next(error);
+  }
+});
+
 export default eventController;

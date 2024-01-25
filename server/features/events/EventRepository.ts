@@ -29,6 +29,19 @@ const create = async (
   }
 };
 
+// TODO: 動的に条件を指定できるようにする
+// TODO: ページング＆ソート機能
+const search = async () => {
+  try {
+    const events = await prisma.event.findMany();
+    return events;
+  } catch (error) {
+    logger.error('Failed to search events.');
+    throw new RuntimeError(500, error.message);
+  }
+};
+
 export default {
   create,
+  search,
 };
