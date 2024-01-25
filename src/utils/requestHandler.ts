@@ -4,6 +4,10 @@ export const saveUserInfo = async (email: string, token: string) => {
   await axios.post('/api/auth/userInfo', { email, token });
 };
 
+export const fetchEvents = async () => {
+  return (await axios.get('/api/events')).data;
+};
+
 export const saveEvent = async (
   eventName: string,
   eventDetail: string,

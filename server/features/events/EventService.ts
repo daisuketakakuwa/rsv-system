@@ -36,6 +36,7 @@ const search = async () => {
       eventDetail: e.detail,
       startDatetime: utcToJst(e.start_datetime),
       endDatetime: utcToJst(e.end_datetime),
+      capacity: e.capacity,
     }));
     return timezonedEvents;
   } catch (error) {
